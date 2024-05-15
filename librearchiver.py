@@ -50,7 +50,11 @@ def add_files_to_archive():
     
     # Construct the command
     command = ["7za", "a", "-t7z", "-mx" + str(compression_level), archive_name]
-    command.extend(file_paths)
+    
+    # Add each file path to the command, escaping spaces
+    for file_path in file_paths:
+        escaped_file_path = file_path.replace(" ", "\\ ")
+        command.append(escaped_file_path)
     
     # Run the command in a separate thread
     threading.Thread(target=lambda: run_7za(command)).start()
